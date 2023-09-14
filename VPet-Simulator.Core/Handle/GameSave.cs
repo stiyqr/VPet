@@ -274,12 +274,18 @@ namespace VPet_Simulator.Core
             Ill
         }
         [Line(name: "mode")]
-        public ModeType Mode { get; set; } = ModeType.Nomal;
+        //public ModeType Mode { get; set; } = ModeType.Nomal;
+        public ModeType Mode { 
+            get => ModeType.Nomal;
+            set { CalMode(); }
+        }
         /// <summary>
         /// 计算宠物当前状态
         /// </summary>
         public ModeType CalMode()
         {
+            return ModeType.Nomal;
+
             int realhel = 60 - (Feeling >= 80 ? 12 : 0) - (Likability >= 80 ? 12 : (Likability >= 40 ? 6 : 0));
             //先从最次的开始
             if (Health <= realhel)

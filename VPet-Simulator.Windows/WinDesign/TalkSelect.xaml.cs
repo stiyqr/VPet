@@ -43,8 +43,8 @@ namespace VPet_Simulator.Windows
         {
             InitializeComponent();
             this.mw = mw;
-            mw.Main.ToolBar.EventShow += RelsSelect;
-            RelsSelect();
+            //mw.Main.ToolBar.EventShow += RelsSelect;
+            //RelsSelect();
         }
 
 
@@ -55,11 +55,11 @@ namespace VPet_Simulator.Windows
         {
             if (RelsTime < DateTime.Now)
             {
-                //刷新选项
-                RelsTime = DateTime.Now.AddMinutes(10);//10分钟刷新一次, 每次聊天增加5分钟
+                //刷新选项 - Refresh options
+                RelsTime = DateTime.Now.AddMinutes(10);//10分钟刷新一次, 每次聊天增加5分钟 - Refreshed every 10 minutes, each chat adds 5 minutes
                 textList.Clear();
                 textSaid.Clear();
-                //随机选取选项
+                //随机选取选项 - Randomly select options
                 var list = mw.SelectTexts.ToList();
                 while (list.Count > 0 && textList.Count < 5)
                 {
@@ -72,7 +72,7 @@ namespace VPet_Simulator.Windows
                     }
                 }
             }
-            //刷新显示
+            //刷新显示 - refresh display
             if (textList.Count > 0)
             {
                 tbTalk.Items.Clear();
@@ -137,7 +137,7 @@ namespace VPet_Simulator.Windows
                     }
                 }
             }
-            RelsSelect();
+            //RelsSelect();
 
         }
     }

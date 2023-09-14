@@ -983,6 +983,15 @@ namespace VPet_Simulator.Windows
             if (!AllowChange)
                 return;
             //MessageBoxX.Show("由于没做完,暂不支持数据计算\n敬请期待后续更新", "没做完!", MessageBoxButton.OK, MessageBoxIcon.Warning);
+
+            /*if (CalFunctionBox.IsChecked == true)
+                CalFunctionBox.IsChecked = false;
+            
+            mw.Set.EnableFunction = false;
+            combCalFunState.IsEnabled = true;
+
+            return;*/
+
             if (CalFunctionBox.IsChecked == true)
             {
                 mw.Set.EnableFunction = true;

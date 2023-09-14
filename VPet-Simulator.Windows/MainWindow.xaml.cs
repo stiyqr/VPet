@@ -46,10 +46,9 @@ namespace VPet_Simulator.Windows
             LocalizeCore.StoreTranslation = true;
             CultureInfo.CurrentCulture = new CultureInfo(CultureInfo.CurrentCulture.Name);
             CultureInfo.CurrentCulture.NumberFormat = new CultureInfo("en-US").NumberFormat;
-            //判断是不是Steam用户,因为本软件会发布到Steam
+            //判断是不是Steam用户,因为本软件会发布到Steam - Determine if you are a Steam user, because this software will be published to Steam
             //在 https://store.steampowered.com/app/1920960/VPet
-            try
-            {
+            try {
 #if DEMO
                 SteamClient.Init(2293870, true);
 #else
@@ -67,7 +66,7 @@ namespace VPet_Simulator.Windows
             }
             try
             {
-                //加载游戏设置
+                //加载游戏设置 - Load game settings
                 if (new FileInfo(AppDomain.CurrentDomain.BaseDirectory + @"\Setting.lps").Exists)
                 {
                     Set = new Setting(File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Setting.lps"));
@@ -342,7 +341,7 @@ namespace VPet_Simulator.Windows
                 Directory.Move(AppDomain.CurrentDomain.BaseDirectory + @"\UserData", AppDomain.CurrentDomain.BaseDirectory + @"\BackUP");
             }
 
-            //加载数据合理化:食物
+            //加载数据合理化:食物 - Loading Data Rationalization: Food
             if (!Set["gameconfig"].GetBool("noAutoCal"))
             {
                 foreach (Food f in Foods)
@@ -357,16 +356,16 @@ namespace VPet_Simulator.Windows
 
             await Dispatcher.InvokeAsync(new Action(() => LoadingText.Content = "尝试加载游戏MOD".Translate()));
 
-            //当前桌宠动画
+            //当前桌宠动画 - Current table pet animation
             var petloader = Pets.Find(x => x.Name == Set.PetGraph);
             petloader ??= Pets[0];
 
             await Dispatcher.InvokeAsync(new Action(() => LoadingText.Content = "尝试加载游戏存档".Translate()));
-            //加载存档
+            //加载存档 - Load archive
             Core.Controller = new MWController(this);
             if (!(File.Exists(AppDomain.CurrentDomain.BaseDirectory + @"\Save.lps") &&
                 GameLoad(new LpsDocument(File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Save.lps")).First())))
-                //如果加载存档失败了,试试加载备份,如果没备份,就新建一个
+                //如果加载存档失败了,试试加载备份,如果没备份,就新建一个 - If loading the archive fails, try loading the backup. If there is no backup, create a new one.
                 LoadLatestSave(petloader.PetName);
 
             AutoSaveTimer.Elapsed += AutoSaveTimer_Elapsed;
@@ -378,7 +377,7 @@ namespace VPet_Simulator.Windows
                 hashCheck = false;
             }
 
-                if (Set.AutoSaveInterval > 0)
+            if (Set.AutoSaveInterval > 0)
             {
                 AutoSaveTimer.Interval = Set.AutoSaveInterval * 60000;
                 AutoSaveTimer.Start();
@@ -396,7 +395,7 @@ namespace VPet_Simulator.Windows
             //"欢迎加入 虚拟主播模拟器群 430081239".Translate()
 
             await Dispatcher.InvokeAsync(new Action(() => LoadingText.Content = "尝试加载Steam内容".Translate()));
-            //给正在玩这个游戏的主播/游戏up主做个小功能
+            //给正在玩这个游戏的主播/游戏up主做个小功能 - Make a small function for the anchors/game up owners who are playing this game
             if (IsSteamUser)
             {
                 ClickTexts.Add(new ClickText("关注 {0} 谢谢喵")
@@ -434,7 +433,7 @@ namespace VPet_Simulator.Windows
                 Main = new Main(Core);
                 Main.NoFunctionMOD = Set.CalFunState;
 
-                //加载数据合理化:工作
+                //加载数据合理化:工作 - Load data rationalization: work
                 if (!Set["gameconfig"].GetBool("noAutoCal"))
                 {
                     foreach (var work in Core.Graph.GraphConfig.Works)
@@ -462,22 +461,25 @@ namespace VPet_Simulator.Windows
                 }
 
                 LoadingText.Content = "正在加载CGPT".Translate();
-                switch (Set["CGPT"][(gstr)"type"])
-                {
-                    case "API":
-                        TalkBox = new TalkBoxAPI(this);
-                        Main.ToolBar.MainGrid.Children.Add(TalkBox);
-                        break;
-                    case "LB":
-                        //if (IsSteamUser)
-                        //{
-                        //    TalkBox = new TalkSelect(this);
-                        //    Main.ToolBar.MainGrid.Children.Add(TalkBox);
-                        //}
-                        TalkBox = new TalkSelect(this);
-                        Main.ToolBar.MainGrid.Children.Add(TalkBox);
-                        break;
-                }
+                
+                TalkBox = new TalkBoxAPI(this);
+                Main.ToolBar.MainGrid.Children.Add(TalkBox);
+                //switch (Set["CGPT"][(gstr)"type"])
+                //{
+                //    case "API":
+                //        TalkBox = new TalkBoxAPI(this);
+                //        Main.ToolBar.MainGrid.Children.Add(TalkBox);
+                //        break;
+                //    case "LB":
+                //        //if (IsSteamUser)
+                //        //{
+                //        //    TalkBox = new TalkSelect(this);
+                //        //    Main.ToolBar.MainGrid.Children.Add(TalkBox);
+                //        //}
+                //        TalkBox = new TalkSelect(this);
+                //        Main.ToolBar.MainGrid.Children.Add(TalkBox);
+                //        break;
+                //}
 
                 LoadingText.Content = "正在加载游戏".Translate();
                 var m = new System.Windows.Controls.MenuItem()
@@ -496,7 +498,7 @@ namespace VPet_Simulator.Windows
                 Main.ToolBar.MenuMODConfig.Items.Add(m);
                 try
                 {
-                    //加载游戏创意工坊插件
+                    //加载游戏创意工坊插件 - Load the Game Workshop plug-in
                     foreach (MainPlugin mp in Plugins)
                         mp.LoadPlugin();
                 }
@@ -536,6 +538,7 @@ namespace VPet_Simulator.Windows
                     await Dispatcher.InvokeAsync(() => LoadingText.Visibility = Visibility.Collapsed);
                 });
 
+                //MenuSetting buttons
                 Main.ToolBar.AddMenuButton(VPet_Simulator.Core.ToolBar.MenuType.Setting, "退出桌宠".Translate(), () => { Main.ToolBar.Visibility = Visibility.Collapsed; Close(); });
                 Main.ToolBar.AddMenuButton(VPet_Simulator.Core.ToolBar.MenuType.Setting, "开发控制台".Translate(), () => { Main.ToolBar.Visibility = Visibility.Collapsed; new winConsole(this).Show(); });
                 Main.ToolBar.AddMenuButton(VPet_Simulator.Core.ToolBar.MenuType.Setting, "操作教程".Translate(), () =>
@@ -638,7 +641,7 @@ namespace VPet_Simulator.Windows
                     winSetting.Show();
                 };
 
-                //成就和统计 
+                //成就和统计 - Achievements and Statistics
                 Set.Statistics[(gint)"stat_open_times"]++;
                 Main.MoveTimer.Elapsed += MoveTimer_Elapsed;
                 Main.OnSay += Main_OnSay;

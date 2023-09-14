@@ -28,6 +28,9 @@ namespace VPet_Simulator.Core
         /// </summary>
         public void DisplayToNomal()
         {
+            DisplayNomal();
+            return;
+
             switch (State)
             {
                 default:
@@ -156,6 +159,8 @@ namespace VPet_Simulator.Core
         /// </summary>
         public void DisplayTouchHead()
         {
+            return;
+
             CountNomal = 0;
             if (Core.Controller.EnableFunction && Core.Save.Strength >= 10 && Core.Save.Feeling < 100)
             {
@@ -194,6 +199,8 @@ namespace VPet_Simulator.Core
         /// </summary>
         public void DisplayTouchBody()
         {
+            return;
+
             CountNomal = 0;
             if (Core.Controller.EnableFunction && Core.Save.Strength >= 10 && Core.Save.Feeling < 100)
             {
@@ -369,6 +376,8 @@ namespace VPet_Simulator.Core
         /// </summary>
         private void DisplayRaising(string name = null)
         {
+            return;
+
             Console.WriteLine(rasetype);
             switch (rasetype)
             {

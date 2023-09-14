@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.IO;
+using System.Text;
+
 using VPet_Simulator.Core;
 
 namespace VPet_Simulator.Windows
@@ -31,8 +34,50 @@ namespace VPet_Simulator.Windows
             }
             var cont = tbTalk.Text;
             tbTalk.Text = "";
-            Task.Run(() => OPENAI(cont));
+            //Task.Run(() => OPENAI(cont));
+
+            mw.Main.ToolBar.Visibility = Visibility.Collapsed;
+            //Task.Run(() => PrintTextBoxMsg(cont) );
+            WriteToCsv(cont);
         }
+
+        public void PrintTextBoxMsg(string content) {
+            if (string.IsNullOrEmpty(content)) {
+                return;
+            }
+            Dispatcher.Invoke(() => this.IsEnabled = false);
+
+            m.SayRnd(content);
+
+            Dispatcher.Invoke(() => this.IsEnabled = true);
+        }
+
+        public void WriteToFile(string content) {
+            string path = @".\TESTINGFILE.txt";
+
+            File.AppendAllText(path, content + Environment.NewLine);
+
+            Task.Run(() => PrintTextBoxMsg(File.ReadAllText(path)));
+        }
+
+        public void WriteToCsv(string content) {
+            string path = @".\TESTINGFILECSV.csv";
+
+            if (content.ToLower() == "clear") {
+                File.WriteAllText(path, "");
+                Task.Run(() => PrintTextBoxMsg("File cleared!") );
+
+                return;
+            }
+
+            string date = DateTime.Today.ToShortDateString();
+            string entry = date + "," + content;
+
+            File.AppendAllText(path, entry + Environment.NewLine);
+
+            Task.Run(() => PrintTextBoxMsg(File.ReadAllText(path)));
+        }
+
         /// <summary>
         /// 使用OPENAI API进行回复
         /// </summary>
@@ -101,7 +146,7 @@ namespace VPet_Simulator.Windows
         {
             if (tbTalk.Text.Length > 0)
             {
-                mw.Main.ToolBar.MenuPanel_MouseEnter();
+                //mw.Main.ToolBar.MenuPanel_MouseEnter();
             }
             else
             {

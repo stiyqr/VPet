@@ -471,6 +471,9 @@ namespace VPet_Simulator.Windows
 
         public void RunAction(string action)
         {
+            Main.DisplayNomal();
+            return;
+
             switch (action)
             {
                 case "DisplayNomal":

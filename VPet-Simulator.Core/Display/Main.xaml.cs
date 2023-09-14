@@ -134,7 +134,7 @@ namespace VPet_Simulator.Core
         }
 
         /// <summary>
-        /// 自动加载触摸事件
+        /// 自动加载触摸事件 - Automatically load touch events
         /// </summary>
         public void LoadTouchEvent()
         {
@@ -364,6 +364,8 @@ namespace VPet_Simulator.Core
         private DateTime wavespan;
         private void MainGrid_MouseWave(object sender, MouseEventArgs e)
         {
+            return;
+
             if (rasetype >= 0 || State != WorkingState.Nomal)
                 return;
 

@@ -333,6 +333,8 @@ namespace VPet_Simulator.Core
 
             //UIHandle
             Dispatcher.Invoke(() => TimeUIHandle?.Invoke(this));
+            
+            return;
 
             if (IsIdel)
                 switch (Function.Rnd.Next(Math.Max(20, Core.Controller.InteractionCycle - CountNomal)))
