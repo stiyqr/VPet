@@ -64,10 +64,18 @@
 		<Page Remove="mod\**" />
 	</ItemGroup>
 	<ItemGroup>
+		<None Remove="Assets\CaloriesIcon.png" />
+		<None Remove="Assets\ChatIcon.png" />
+		<None Remove="Assets\ExpensesIcon.png" />
+		<None Remove="Assets\TextBubble.png" />
 		<None Remove="mklink.bat" />
 		<None Remove="快捷键通用注解.md" />
 	</ItemGroup>
 	<ItemGroup>
+		<Resource Include="Assets\CaloriesIcon.png" />
+		<Resource Include="Assets\ChatIcon.png" />
+		<Resource Include="Assets\ExpensesIcon.png" />
+		<Resource Include="Assets\TextBubble.png" />
 		<Resource Include="Res\Font\OPPOSans B.ttf" />
 		<Resource Include="Res\Font\OPPOSans R.ttf" />
 		<Resource Include="Res\remixicon.ttf" />

@@ -272,6 +272,8 @@ namespace VPet_Simulator.Core
             }
             public static ModeType GetModeType(GameSave.ModeType type)
             {
+                return ModeType.Nomal;
+
                 switch (type)
                 {
                     case GameSave.ModeType.Happy:

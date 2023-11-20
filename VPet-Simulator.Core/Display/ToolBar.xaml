@@ -4,7 +4,7 @@
         xmlns:ll="clr-namespace:LinePutScript.Localization.WPF;assembly=LinePutScript.Localization.WPF"
         xmlns:local="clr-namespace:VPet_Simulator.Core"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:pu="https://opensource.panuon.com/wpf-ui" Width="500" Height="500" VerticalAlignment="Top"
+        xmlns:pu="https://opensource.panuon.com/wpf-ui" Width="500" Height="1000" VerticalAlignment="Top"
         MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave" mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
@@ -116,10 +116,10 @@
                     <UniformGrid Columns="5" />
                 </ItemsPanelTemplate>
             </Menu.ItemsPanel>
-            <MenuItem x:Name="MenuFeed" Padding="0" x:FieldModifier="public" Header="{ll:Str 投喂}" />
+            <MenuItem x:Name="MenuFeed" Padding="0" x:FieldModifier="public" Header="{ll:Str 投喂}" IsEnabled="False" />
             <MenuItem x:Name="MenuPanel" Padding="0" Header="{ll:Str 面板}" MouseEnter="MenuPanel_MouseEnter"
-                    MouseLeave="MenuPanel_MouseLeave" />
-            <MenuItem x:Name="MenuInteract" Width="99" Padding="0" Header="{ll:Str 互动}">
+                    MouseLeave="MenuPanel_MouseLeave" IsEnabled="False" />
+            <MenuItem x:Name="MenuInteract" Width="99" Padding="0" Header="{ll:Str 互动}" IsEnabled="True">
                 <MenuItem Click="Sleep_Click" Header="{ll:Str 睡觉}" />                
                 <MenuItem x:Name="MenuStudy" Header="{ll:Str 学习}" ScrollViewer.VerticalScrollBarVisibility="Auto"
                         pu:DropDownHelper.MaxHeight="100" />
@@ -129,9 +129,11 @@
                         pu:DropDownHelper.MaxHeight="100" />
                 <!--<MenuItem Header="说话"  IsEnabled="False" />-->
             </MenuItem>
-            <MenuItem x:Name="MenuDIY" Padding="0" x:FieldModifier="public" Header="{ll:Str 自定}" />
+            <MenuItem x:Name="MenuDIY" Padding="0" x:FieldModifier="public" Header="{ll:Str 自定}" IsEnabled="True" />
             <MenuItem x:Name="MenuSetting" Padding="0" x:FieldModifier="public" Header="{ll:Str 系统}">
                 <MenuItem x:Name="MenuMODConfig" x:FieldModifier="public" Header="{ll:Str MOD设置}" Visibility="Collapsed" />
+                <MenuItem x:Name="MenuScreenTime" Header="{ll:Str ScreenTimer}" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                        pu:DropDownHelper.MaxHeight="100" Click="MenuScreenTime_Click" />
             </MenuItem>
         </Menu>
     </Grid>

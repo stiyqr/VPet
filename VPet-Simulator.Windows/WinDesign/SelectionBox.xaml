@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="VPet_Simulator.Windows.SelectionBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:VPet_Simulator.Windows"
+             mc:Ignorable="d" 
+             Height="1000" Width="500" VerticalAlignment="Top">
+    <Grid VerticalAlignment="Bottom" Margin="5,115,5,300">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Ellipse x:Name="ExpensesCircle" Grid.Column="0" Height="140" Width="140"  Fill="LightGoldenrodYellow" Visibility="Visible"/>
+        <Image x:Name="ExpensesIcon" Source="/Assets/ExpensesIcon.png" MouseLeftButtonDown="ExpensesIcon_MouseLeftButtonDown" 
+                   Grid.Column="0" Height="120"/>
+        <Ellipse x:Name="CaloriesCircle" Grid.Column="1" Height="140" Width="140"  Fill="LightGoldenrodYellow" Visibility="Hidden"/>
+        <Image x:Name="CaloriesIcon" Source="/Assets/CaloriesIcon.png" MouseLeftButtonDown="CaloriesIcon_MouseLeftButtonDown" 
+                   Grid.Column="1" Height="120"/>
+        <Ellipse x:Name="ChatCircle" Grid.Column="2" Height="140" Width="140"  Fill="LightGoldenrodYellow" Visibility="Hidden"/>
+        <Image x:Name="ChatIcon" Source="/Assets/ChatIcon.png" MouseLeftButtonDown="ChatIcon_MouseLeftButtonDown" 
+           Grid.Column="2" Height="120"/>
+    </Grid>
+</UserControl>

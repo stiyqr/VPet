@@ -235,6 +235,8 @@ namespace VPet_Simulator.Core
         /// </summary>
         public void DisplayIdel_StateONE()
         {
+            //return;
+
             looptimes = 0;
             CountNomal = 0;
             var name = Core.Graph.FindName(GraphType.StateONE);
@@ -249,6 +251,8 @@ namespace VPet_Simulator.Core
         /// </summary>
         private void DisplayIdel_StateONEing(string graphname)
         {
+            //return;
+
             if (Function.Rnd.Next(++looptimes) > Core.Graph.GraphConfig.GetDuration(graphname))
                 switch (Function.Rnd.Next(2 + CountNomal))
                 {
@@ -269,6 +273,8 @@ namespace VPet_Simulator.Core
         /// </summary>
         public void DisplayIdel_StateTWO(string graphname)
         {
+            //return;
+
             looptimes = 0;
             CountNomal++;
             Display(graphname, AnimatType.A_Start, GraphType.StateTWO, DisplayIdel_StateTWOing);
@@ -278,6 +284,8 @@ namespace VPet_Simulator.Core
         /// </summary>
         private void DisplayIdel_StateTWOing(string graphname)
         {
+            //return;
+
             if (Function.Rnd.Next(++looptimes) > Core.Graph.GraphConfig.GetDuration(graphname))
             {
                 Display(graphname, AnimatType.C_End, GraphType.StateTWO, DisplayIdel_StateONEing);
@@ -294,6 +302,8 @@ namespace VPet_Simulator.Core
         /// </summary>
         public bool DisplayIdel()
         {
+            //return false;
+
             if (Core.Graph.GraphsName.TryGetValue(GraphType.Idel, out var gl))
             {
                 var list = gl.ToList();

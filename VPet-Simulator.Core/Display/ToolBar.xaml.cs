@@ -442,6 +442,11 @@ namespace VPet_Simulator.Core
                 }
         }
 
+        private void MenuScreenTime_Click(object sender, RoutedEventArgs e) {
+            m.ToggleScreenTimer();
+            this.Visibility = Visibility.Collapsed;
+        }
+
         //private void Study_Click(object sender, RoutedEventArgs e)
         //{
         //    this.Visibility = Visibility.Collapsed;

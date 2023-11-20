@@ -157,7 +157,7 @@ namespace VPet_Simulator.Core
             GetCount = 0;
 
             work.SetStyle(this);
-            work.Display(m);
+            work.Display(m);    //display graph animation
 
             PBLeft.Maximum = work.Time;
             nowWork = work;

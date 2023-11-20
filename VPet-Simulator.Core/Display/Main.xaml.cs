@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using VPet_Simulator.Core.Display;
 using static VPet_Simulator.Core.GraphInfo;
 
 namespace VPet_Simulator.Core
@@ -29,10 +30,18 @@ namespace VPet_Simulator.Core
         /// 消息栏
         /// </summary>
         public MessageBar MsgBar;
+
+        public ExpenseBar ExBar;
+
+        public CalorieBar CalBar;
         /// <summary>
         /// 工作显示栏
         /// </summary>
         public WorkTimer WorkTimer;
+
+        public ScreenTimer ScreenTimer;
+
+        public ExpenseReminder ExpenseReminder;
         /// <summary>
         /// 刷新时间时会调用该方法
         /// </summary>
@@ -64,6 +73,9 @@ namespace VPet_Simulator.Core
             MsgBar.Visibility = Visibility.Collapsed;
             UIGrid.Children.Add(MsgBar);
             labeldisplaytimer.Elapsed += Labledisplaytimer_Elapsed;
+
+            ScreenTimer = new ScreenTimer(this);
+            ExpenseReminder = new ExpenseReminder(this);
 
             if (loadtouchevent)
             {

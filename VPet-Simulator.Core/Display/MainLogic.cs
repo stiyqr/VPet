@@ -8,6 +8,13 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using static VPet_Simulator.Core.GraphInfo;
 
+using VPet_Simulator.Core.Display;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using Panuon.WPF.UI;
+
 namespace VPet_Simulator.Core
 {
     public partial class Main
@@ -46,7 +53,8 @@ namespace VPet_Simulator.Core
             Task.Run(() =>
             {
                 OnSay?.Invoke(text);
-                if (force || !string.IsNullOrWhiteSpace(graphname) && DisplayType.Type == GraphType.Default)//这里不使用idle是因为idle包括学习等
+                Dispatcher.Invoke(() => MsgBar.Show(Core.Save.Name, text));
+                /*if (force || !string.IsNullOrWhiteSpace(graphname) && DisplayType.Type == GraphType.Default)//这里不使用idle是因为idle包括学习等 - Idle is not used here because idle includes learning, etc.
                     Display(graphname, AnimatType.A_Start, () =>
                     {
                         Dispatcher.Invoke(() => MsgBar.Show(Core.Save.Name, text, graphname));
@@ -55,9 +63,30 @@ namespace VPet_Simulator.Core
                 else
                 {
                     Dispatcher.Invoke(() => MsgBar.Show(Core.Save.Name, text));
-                }
+                }*/
             });
         }
+
+        public void DisplayExpenseTable() {
+            ExBar = new ExpenseBar(this);
+            Dispatcher.Invoke(() => ExBar.Show());
+        }
+
+        public void DisplayCalorieTable() {
+            CalBar = new CalorieBar(this);
+            Dispatcher.Invoke(() => CalBar.Show());
+        }
+
+        public void PrintActiveWindow() {
+            SayRnd(GetActiveWindow(GetOpenWindows()).Value);
+        }
+
+        public void ToggleScreenTimer() {
+            ScreenTimer.isActive = !ScreenTimer.isActive;
+            if (ScreenTimer.isActive) ScreenTimer.Start();
+            else ScreenTimer.Stop();
+        }
+
         int labeldisplaycount = 100;
         int labeldisplayhash = 0;
         Timer labeldisplaytimer = new Timer(10)
@@ -113,11 +142,13 @@ namespace VPet_Simulator.Core
             });
         }
         /// <summary>
-        /// 根据消耗计算相关数据
+        /// 根据消耗计算相关数据 - Calculate relevant data based on consumption
         /// </summary>
         /// <param name="TimePass">过去时间倍率</param>
         public void FunctionSpend(double TimePass)
         {
+            return;
+
             Core.Save.CleanChange();
             Core.Save.StoreTake();
             double freedrop = (DateTime.Now - LastInteractionTime).TotalMinutes;
@@ -314,7 +345,7 @@ namespace VPet_Simulator.Core
         public bool IsIdel => (DisplayType.Type == GraphType.Default || DisplayType.Type == GraphType.Work) && !isPress;
 
         /// <summary>
-        /// 每隔指定时间自动触发计算 可以关闭EventTimer后手动计算
+        /// 每隔指定时间自动触发计算 可以关闭EventTimer后手动计算 - Automatically trigger calculations every specified time. You can close EventTimer and calculate manually.
         /// </summary>
         public void EventTimer_Elapsed()
         {
@@ -410,6 +441,8 @@ namespace VPet_Simulator.Core
         /// <param name="SmartMoveInterval">智能移动周期</param>
         public void SetMoveMode(bool AllowMove, bool smartMove, int SmartMoveInterval)
         {
+            return;
+
             MoveTimer.Enabled = false;
             if (AllowMove)
             {

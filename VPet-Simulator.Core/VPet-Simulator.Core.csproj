@@ -20,6 +20,9 @@
 		<NoWarn>CS1591</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
+	  <None Remove="Assets\TextBubble.png" />
+	</ItemGroup>
+	<ItemGroup>
 	  <None Include="..\.editorconfig" Link=".editorconfig" />
 	</ItemGroup>
 	<ItemGroup>
@@ -51,5 +54,8 @@
 	    <Generator>SettingsSingleFileGenerator</Generator>
 	    <LastGenOutput>Settings.Designer.cs</LastGenOutput>
 	  </None>
+	</ItemGroup>
+	<ItemGroup>
+	  <Resource Include="Assets\TextBubble.png" />
 	</ItemGroup>
 </Project>

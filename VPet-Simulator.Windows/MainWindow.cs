@@ -36,6 +36,7 @@ namespace VPet_Simulator.Windows
         public GameCore Core { get; set; } = new GameCore();
         public Main Main { get; set; }
         public UIElement TalkBox;
+        public UIElement SelectionBox;
         public winGameSetting winSetting { get; set; }
         public winBetterBuy winBetterBuy { get; set; }
         public ChatGPTClient CGPTClient;
@@ -106,7 +107,7 @@ namespace VPet_Simulator.Windows
             HashCheck = false;
         }
         /// <summary>
-        /// 存档 Hash检查 是否通过
+        /// 存档 Hash检查 是否通过 - Archive Hash check whether passed
         /// </summary>
         public bool HashCheck
         {
@@ -277,6 +278,8 @@ namespace VPet_Simulator.Windows
         int lowstrengthAskCountDrink = 20;
         private void lowStrength()
         {
+            return;
+
             if (Set.AutoBuy && Core.Save.Money >= 100)
             {
                 var havemoney = Core.Save.Money * 1.2;
@@ -665,6 +668,8 @@ namespace VPet_Simulator.Windows
         /// </summary>
         private void Handle_Music(Main obj)
         {
+            return;
+
             if (MusicTimer.Enabled == false && Core.Graph.FindGraphs("music", AnimatType.B_Loop, Core.Save.Mode) != null &&
                 Main.IsIdel && AudioPlayingVolume() > Set.MusicCatch)
             {
@@ -709,7 +714,7 @@ namespace VPet_Simulator.Windows
         }
         private void MusicTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            if (!(Main.IsIdel || Main.DisplayType.Name == "music"))//不是音乐,被掐断
+            if (!(Main.IsIdel || Main.DisplayType.Name == "music"))//不是音乐,被掐断 - It's not music, it's cut off
                 return;
             catch_MusicVolSum += AudioPlayingVolume();
             catch_MusicVolCount++;

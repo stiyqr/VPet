@@ -14,6 +14,10 @@ namespace VPet_Simulator.Core
     /// <summary>
     /// MessageBar.xaml 的交互逻辑
     /// </summary>
+    /// 
+
+    //Border -> Background="{DynamicResource Primary}" BorderBrush="{DynamicResource DARKPrimaryDark}"
+
     public partial class MessageBar : UserControl, IDisposable
     {
         Main m;

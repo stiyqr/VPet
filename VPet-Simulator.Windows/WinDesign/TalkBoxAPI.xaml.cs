@@ -9,6 +9,8 @@ using System.IO;
 using System.Text;
 
 using VPet_Simulator.Core;
+using VPet_Simulator.Core.Display;
+using Panuon.WPF.UI;
 
 namespace VPet_Simulator.Windows
 {
@@ -24,6 +26,7 @@ namespace VPet_Simulator.Windows
             InitializeComponent();
             this.m = mw.Main;
             this.mw = mw;
+            TextBoxHelper.SetWatermark(tbTalk, "hehe");
         }
 
         private void SendMessage_Click(object sender, RoutedEventArgs e)
@@ -38,7 +41,8 @@ namespace VPet_Simulator.Windows
 
             mw.Main.ToolBar.Visibility = Visibility.Collapsed;
             //Task.Run(() => PrintTextBoxMsg(cont) );
-            WriteToCsv(cont);
+            //WriteToExpenses(cont);
+            WriteToSelection(cont);
         }
 
         public void PrintTextBoxMsg(string content) {
@@ -52,30 +56,148 @@ namespace VPet_Simulator.Windows
             Dispatcher.Invoke(() => this.IsEnabled = true);
         }
 
-        public void WriteToFile(string content) {
-            string path = @".\TESTINGFILE.txt";
-
-            File.AppendAllText(path, content + Environment.NewLine);
-
-            Task.Run(() => PrintTextBoxMsg(File.ReadAllText(path)));
+        public void WriteToSelection(string content) {
+            if (SelectionBox.SelectedType == SelectionBox.SelectionType.Expenses) {
+                WriteToExpenses(content);
+            }
+            else if (SelectionBox.SelectedType == SelectionBox.SelectionType.Calories) {
+                WriteToCalories(content);
+            } 
+            else {
+                Task.Run(() => OPENAI(content));
+            }
         }
 
-        public void WriteToCsv(string content) {
-            string path = @".\TESTINGFILECSV.csv";
+        public void WriteToCalories(string content) {
+            string path = CalorieRecords.FilePath;
+            char delimiter = ',';
+            bool isValidInput = false;
+            content = content.Trim();
 
             if (content.ToLower() == "clear") {
                 File.WriteAllText(path, "");
-                Task.Run(() => PrintTextBoxMsg("File cleared!") );
+                PrintFeedbackMsg("File cleared!");
+            }
+            else if (content.ToLower() == "print") {
+                if (File.ReadAllText(path) == "") {
+                    PrintFeedbackMsg("File is empty!");
+                }
+                else {
+                    m.DisplayCalorieTable();
+                }
+            }
+            else if (content.ToLower() == "active") {
+                m.PrintActiveWindow();
+            }
+            else if (content.ToLower() == "timer") {
+                m.ToggleScreenTimer();
+            }
+            else if (!content.Contains(delimiter)) {
+                PrintFeedbackMsg($"Wrong input format.\nFormat: [food name]{delimiter}[calories]");
+            }
+            else {
+                isValidInput = true;
+            }
 
+            if (!isValidInput) return;
+
+            int delimiterIndex = -1;
+            for (int i = 0; i < content.Length; i++) {
+                if (content[i] == delimiter) {
+                    if (delimiterIndex > -1 || i == 0) {
+                        PrintFeedbackMsg($"Wrong input format.\nFormat: [food name]{delimiter}[calories]");
+                        return;
+                    }
+                    else {
+                        delimiterIndex = i;
+                    }
+                }
+            }
+
+            if (delimiterIndex < 0) {
+                PrintFeedbackMsg($"Wrong input format.\nFormat: [food name]{delimiter}[calories]");
                 return;
             }
 
+            string foodName = content.Substring(0, delimiterIndex).Trim();
+            string foodCalorie = content.Substring(delimiterIndex + 1).Trim();
+
             string date = DateTime.Today.ToShortDateString();
-            string entry = date + "," + content;
+            string entry = date + "," + foodName + "," + foodCalorie;
 
             File.AppendAllText(path, entry + Environment.NewLine);
 
-            Task.Run(() => PrintTextBoxMsg(File.ReadAllText(path)));
+            Task.Run(() => PrintTextBoxMsg($"Recorded: {date} {foodName} {foodCalorie}"));
+        }
+
+        public void WriteToExpenses(string content) {
+            string path = Expenses.FilePath;
+            char delimiter = ',';
+            bool isValidInput = false;
+            content = content.Trim();
+
+            if (content.ToLower() == "clear") {
+                File.WriteAllText(path, "");
+                PrintFeedbackMsg("File cleared!");
+            }
+            else if (content.ToLower() == "print") {
+                if (File.ReadAllText(path) == "") {
+                    PrintFeedbackMsg("File is empty!");
+                }
+                else {
+                    //Task.Run(() => PrintTextBoxMsg(File.ReadAllText(path)));
+
+                    //ExpenseTable0 expenseTable = new ExpenseTable0();
+                    //Task.Run(() => expenseTable.Show());
+                    m.DisplayExpenseTable();
+                }
+            }
+            else if (content.ToLower() == "active") {
+                m.PrintActiveWindow();
+            }
+            else if (content.ToLower() == "timer") {
+                m.ToggleScreenTimer();
+            }
+            else if (!content.Contains(delimiter)) {
+                PrintFeedbackMsg($"Wrong input format.\nFormat: [item name]{delimiter}[price]");
+            }
+            else {
+                isValidInput = true;
+            }
+
+            if (!isValidInput) return;
+
+            int delimiterIndex = -1;
+            for (int i = 0; i < content.Length; i++) {
+                if (content[i] == delimiter) {
+                    if (delimiterIndex > -1 || i == 0) {
+                        PrintFeedbackMsg($"Wrong input format.\nFormat: [item name]{delimiter}[price]");
+                        return;
+                    }
+                    else {
+                        delimiterIndex = i;
+                    }
+                }
+            }
+
+            if (delimiterIndex < 0) {
+                PrintFeedbackMsg($"Wrong input format.\nFormat: [item name]{delimiter}[price]");
+                return;
+            }
+
+            string itemName = content.Substring(0, delimiterIndex).Trim();
+            string itemPrice = content.Substring(delimiterIndex + 1).Trim();
+
+            string date = DateTime.Today.ToShortDateString();
+            string entry = date + "," + itemName + "," + itemPrice;
+
+            File.AppendAllText(path, entry + Environment.NewLine);
+
+            Task.Run(() => PrintTextBoxMsg($"Recorded: {date} {itemName} {itemPrice}"));
+        }
+
+        private void PrintFeedbackMsg(string msg) {
+            Task.Run(() => PrintTextBoxMsg(msg));
         }
 
         /// <summary>

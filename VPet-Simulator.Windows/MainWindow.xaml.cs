@@ -464,6 +464,8 @@ namespace VPet_Simulator.Windows
                 
                 TalkBox = new TalkBoxAPI(this);
                 Main.ToolBar.MainGrid.Children.Add(TalkBox);
+                SelectionBox = new SelectionBox(this);
+                Main.ToolBar.MainGrid.Children.Add(SelectionBox);
                 //switch (Set["CGPT"][(gstr)"type"])
                 //{
                 //    case "API":
@@ -516,6 +518,7 @@ namespace VPet_Simulator.Windows
                 winSetting = new winGameSetting(this);
                 winBetterBuy = new winBetterBuy(this);
 
+                // comment begin
                 Main.DefaultClickAction = () =>
                 {
                     if (new TimeSpan(DateTime.Now.Ticks - lastclicktime).TotalSeconds > 20)
@@ -525,7 +528,7 @@ namespace VPet_Simulator.Windows
                         if (rt != null)
                             Main.SayRnd(rt.TranslateText);
                     }
-                };
+                }; // comment end
                 Main.PlayVoiceVolume = Set.VoiceVolume;
                 Main.FunctionSpendHandle += StatisticsCalHandle;
                 DisplayGrid.Child = Main;
@@ -643,10 +646,10 @@ namespace VPet_Simulator.Windows
 
                 //成就和统计 - Achievements and Statistics
                 Set.Statistics[(gint)"stat_open_times"]++;
-                Main.MoveTimer.Elapsed += MoveTimer_Elapsed;
+                /*Main.MoveTimer.Elapsed += MoveTimer_Elapsed;
                 Main.OnSay += Main_OnSay;
                 Main.Event_TouchHead += Main_Event_TouchHead;
-                Main.Event_TouchBody += Main_Event_TouchBody;
+                Main.Event_TouchBody += Main_Event_TouchBody;*/
 
                 HashCheck = hashCheck;
 
